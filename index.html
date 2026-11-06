@@ -68,19 +68,9 @@
   <header class="bg-kb-navy text-white shadow-md border-b-4 border-kb-red sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <!-- KBエンブレムロゴ (高精度ベクター) -->
-        <div class="w-11 h-11 bg-white rounded-xl p-1 flex items-center justify-center shadow-md border border-white/20 flex-shrink-0">
-          <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm">
-            <polygon points="100,185 20,135 20,40 180,40 180,135" fill="#012346" />
-            <polygon points="100,172 30,128 30,50 170,50 170,128" fill="#ffffff" />
-            <polygon points="100,165 38,124 38,58 162,58 162,124" fill="#012346" />
-            <polygon points="42,65 72,65 52,150 24,150" fill="#9B070A" />
-            <polygon points="65,95 185,25 155,48 85,115" fill="#9B070A" />
-            <polygon points="76,112 120,152 92,152 58,122" fill="#9B070A" />
-            <path d="M105,75 C125,75 160,82 160,105 C160,118 150,128 135,133 C155,136 165,148 162,160 C158,172 135,178 108,178 C95,178 85,175 80,172 L92,125 C102,128 118,128 128,124 C136,120 138,114 136,108 C133,101 122,98 106,98 Z" fill="#9B070A" />
-            <path d="M108,135 C118,132 128,136 138,145" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" />
-            <path d="M112,131 L115,137 M118,132 L121,138 M124,134 L127,140 M130,137 L133,143 M136,140 L139,146" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-          </svg>
+        <!-- KBエンブレムロゴ (画像ファイル優先＋フォールバックSVG) -->
+        <div class="w-11 h-11 bg-white rounded-xl p-1 flex items-center justify-center shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
+          <img src="./logo.png" alt="越谷ボーイズ ロゴ" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<svg viewBox=\'0 0 200 200\' class=\'w-full h-full\'><polygon points=\'100,185 20,135 20,40 180,40 180,135\' fill=\'#012346\'/><polygon points=\'100,172 30,128 30,50 170,50 170,128\' fill=\'#ffffff\'/><polygon points=\'42,65 72,65 52,150 24,150\' fill=\'#9B070A\'/><polygon points=\'65,95 185,25 155,48 85,115\' fill=\'#9B070A\'/><polygon points=\'76,112 120,152 92,152 58,122\' fill=\'#9B070A\'/><path d=\'M105,75 C125,75 160,82 160,105 C160,118 150,128 135,133 C155,136 165,148 162,160 C158,172 135,178 108,178 C95,178 85,175 80,172 L92,125 C102,128 118,128 128,124 C136,120 138,114 136,108 C133,101 122,98 106,98 Z\' fill=\'#9B070A\'/></svg>'">
         </div>
         <div>
           <div class="flex items-center gap-2">
@@ -128,24 +118,7 @@
       <!-- 父母ガイドナビゲーター（K-Kobato夫妻マスコット） -->
       <div class="hidden lg:flex items-center gap-2 pl-4 border-l border-kb-subtle text-xs text-stone-600">
         <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-kb-red bg-white flex-shrink-0 shadow-sm relative">
-          <svg viewBox="0 0 200 200" class="w-full h-full scale-125 translate-y-1">
-            <circle cx="70" cy="75" r="45" fill="#f8fafc" stroke="#171413" stroke-width="4" />
-            <path d="M35,60 C45,35 85,35 105,60 C85,55 50,55 35,60 Z" fill="#ffffff" stroke="#171413" stroke-width="3" />
-            <path d="M30,62 C50,45 90,45 110,62 C90,58 50,58 30,62 Z" fill="#9B070A" />
-            <text x="68" y="52" font-family="'Noto Sans JP'" font-weight="900" font-size="16" fill="#9B070A" text-anchor="middle">K</text>
-            <circle cx="58" cy="80" r="5" fill="#171413" />
-            <circle cx="82" cy="80" r="5" fill="#171413" />
-            <polygon points="70,82 62,94 78,94" fill="#f59e0b" />
-            <circle cx="130" cy="95" r="38" fill="#f8fafc" stroke="#171413" stroke-width="3.5" />
-            <path d="M102,82 C110,60 145,60 160,82 C145,78 115,78 102,82 Z" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-            <path d="M98,84 C112,70 148,70 164,84 C148,80 115,80 98,84 Z" fill="#9B070A" />
-            <text x="131" y="76" font-family="'Noto Sans JP'" font-weight="900" font-size="13" fill="#9B070A" text-anchor="middle">K</text>
-            <path d="M118,97 Q124,91 130,97" stroke="#171413" stroke-width="3.5" fill="none" stroke-linecap="round" />
-            <path d="M136,97 Q142,91 148,97" stroke="#171413" stroke-width="3.5" fill="none" stroke-linecap="round" />
-            <polygon points="133,100 126,110 140,110" fill="#f59e0b" />
-            <ellipse cx="116" cy="106" rx="5" ry="3" fill="#fca5a5" opacity="0.8" />
-            <ellipse cx="148" cy="106" rx="5" ry="3" fill="#fca5a5" opacity="0.8" />
-          </svg>
+          <img src="./mascot-parents.png" alt="K-Kobato夫妻" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-red-100 flex items-center justify-center font-bold text-kb-red\'>KB</div>'">
         </div>
         <div>
           <span class="font-bold text-kb-red block">K-Kobato夫妻</span>
@@ -164,55 +137,9 @@
       <!-- マスコット応援バナー (K-Kobato夫妻の全力応援グラフィック) -->
       <div class="bg-gradient-to-r from-red-50 via-white to-orange-50 border-2 border-dashed border-red-300 rounded-2xl p-4 flex items-center gap-4 relative overflow-hidden shadow-sm">
         
-        <!-- K-Kobato夫妻のペアイラスト -->
+        <!-- K-Kobato夫妻の画像 -->
         <div class="w-20 h-20 rounded-2xl bg-white shadow-md p-1 border-2 border-kb-red flex-shrink-0 animate-float flex items-center justify-center overflow-hidden">
-          <svg viewBox="0 0 240 240" class="w-full h-full">
-            <circle cx="120" cy="120" r="110" fill="#fff7ed" />
-            <!-- 夫コバト -->
-            <g id="husband-kobato">
-              <ellipse cx="70" cy="205" rx="18" ry="8" fill="#171413" />
-              <path d="M54,202 C54,195 86,195 86,202 Z" fill="#ffffff" stroke="#9B070A" stroke-width="2" />
-              <path d="M52,150 L64,195 L84,195 L88,150 Z" fill="#012346" stroke="#171413" stroke-width="2" />
-              <path d="M60,150 L69,195 M80,150 L77,195" stroke="#ffffff" stroke-width="2" />
-              <path d="M38,105 C40,90 100,90 102,105 L96,155 L42,155 Z" fill="#9B070A" stroke="#171413" stroke-width="2.5" />
-              <path d="M62,118 L76,118 L86,132 L74,132 Z" fill="#ffffff" />
-              <text x="69" y="129" font-family="'Teko'" font-weight="700" font-size="12" fill="#9B070A">KB</text>
-              <path d="M40,110 C20,95 25,60 45,65 C52,70 55,85 48,110 Z" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-              <circle cx="42" cy="62" r="10" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-              <circle cx="75" cy="65" r="32" fill="#ffffff" stroke="#171413" stroke-width="3" />
-              <path d="M48,55 C52,32 98,32 102,55 C88,50 62,50 48,55 Z" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-              <path d="M42,57 C58,45 92,45 108,57 C92,52 58,52 42,57 Z" fill="#9B070A" />
-              <text x="75" y="48" font-family="'Noto Sans JP'" font-weight="900" font-size="14" fill="#9B070A" text-anchor="middle">K</text>
-              <circle cx="66" cy="68" r="4.5" fill="#171413" />
-              <circle cx="86" cy="68" r="4.5" fill="#171413" />
-              <polygon points="76,71 68,82 84,82" fill="#f59e0b" stroke="#b45309" stroke-width="1.5" />
-              <polygon points="86,76 122,60 122,95 86,84" fill="#9B070A" stroke="#171413" stroke-width="2" />
-              <rect x="100" y="69" width="7" height="20" fill="#ffffff" />
-              <text x="104" y="84" font-family="'Noto Sans JP'" font-weight="900" font-size="10" fill="#9B070A" text-anchor="middle">K</text>
-            </g>
-            <!-- 妻コバト -->
-            <g id="wife-kobato">
-              <ellipse cx="165" cy="210" rx="15" ry="7" fill="#171413" />
-              <path d="M152,207 C152,200 178,200 178,207 Z" fill="#ffffff" stroke="#9B070A" stroke-width="1.5" />
-              <path d="M150,165 L158,202 L174,202 L178,165 Z" fill="#012346" stroke="#171413" stroke-width="2" />
-              <path d="M156,165 L163,202 M170,165 L168,202" stroke="#ffffff" stroke-width="1.5" />
-              <path d="M140,125 C142,112 190,112 192,125 L186,170 L144,170 Z" fill="#9B070A" stroke="#171413" stroke-width="2.5" />
-              <text x="165" y="148" font-family="'Teko'" font-weight="700" font-size="11" fill="#ffffff">KB</text>
-              <ellipse cx="178" cy="138" rx="10" ry="14" fill="#ffffff" stroke="#171413" stroke-width="2" transform="rotate(-20 178 138)" />
-              <ellipse cx="186" cy="136" rx="9" ry="13" fill="#ffffff" stroke="#171413" stroke-width="2" transform="rotate(-35 186 136)" />
-              <circle cx="166" cy="95" r="28" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-              <path d="M142,85 C146,65 186,65 190,85 C176,80 156,80 142,85 Z" fill="#ffffff" stroke="#171413" stroke-width="2.5" />
-              <path d="M138,87 C150,75 182,75 194,87 C182,83 150,83 138,87 Z" fill="#9B070A" />
-              <text x="166" y="78" font-family="'Noto Sans JP'" font-weight="900" font-size="12" fill="#9B070A" text-anchor="middle">K</text>
-              <path d="M154,98 Q160,92 166,98" stroke="#171413" stroke-width="3" fill="none" stroke-linecap="round" />
-              <path d="M172,98 Q178,92 184,98" stroke="#171413" stroke-width="3" fill="none" stroke-linecap="round" />
-              <line x1="152" y1="96" x2="149" y2="92" stroke="#171413" stroke-width="2" stroke-linecap="round" />
-              <line x1="185" y1="96" x2="188" y2="92" stroke="#171413" stroke-width="2" stroke-linecap="round" />
-              <polygon points="168,100 162,110 174,110" fill="#f59e0b" stroke="#b45309" stroke-width="1.5" />
-              <ellipse cx="152" cy="105" rx="5" ry="3" fill="#fca5a5" opacity="0.8" />
-              <ellipse cx="182" cy="105" rx="5" ry="3" fill="#fca5a5" opacity="0.8" />
-            </g>
-          </svg>
+          <img src="./mascot-parents.png" alt="K-Kobato夫妻マスコット" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'text-2xl\'>⚾👫</div>'">
         </div>
 
         <div class="text-xs leading-relaxed text-stone-700">
@@ -861,13 +788,8 @@
     <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border-4 border-kb-navy">
       <div class="bg-kb-navy text-white px-5 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center flex-shrink-0 shadow">
-            <svg viewBox="0 0 100 100" class="w-full h-full">
-              <polygon points="50,92 12,68 12,24 88,24 88,68" fill="#012346" />
-              <polygon points="50,86 16,65 16,28 84,28 84,65" fill="#ffffff" />
-              <path d="M22,32 L36,32 L46,50 L58,32 L72,32 L56,54 L75,76 L61,76 L46,58 L36,70 L36,76 L22,76 Z" fill="#9B070A" />
-              <path d="M58,54 C66,54 74,58 74,66 C74,74 65,77 56,77 L46,77 L52,69 C60,69 66,66 64,60 C63,55 58,54 58,54 Z" fill="#9B070A" />
-            </svg>
+          <div class="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center flex-shrink-0 shadow overflow-hidden">
+            <img src="./logo.png" alt="ロゴ" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'text-xs font-bold text-kb-red\'>KB</div>'">
           </div>
           <div>
             <h3 class="font-bold text-sm sm:text-base flex items-center gap-2">
