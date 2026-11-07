@@ -62,6 +62,24 @@
       animation: floatBalloon 3s ease-in-out infinite;
     }
 
+    /* 指さしアニメーション */
+    @keyframes fingerBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.1); }
+    }
+    .animate-finger {
+      animation: fingerBounce 1.2s ease-in-out infinite;
+    }
+
+    /* ピカッと光るハイライト枠 */
+    @keyframes spotGlow {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.4), 0 0 15px rgba(220, 38, 38, 0.3); }
+      50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.9), 0 0 25px rgba(220, 38, 38, 0.6); }
+    }
+    .spot-highlight {
+      animation: spotGlow 1.8s infinite ease-in-out;
+    }
+
     #toast {
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     }
@@ -109,127 +127,219 @@
   <!-- ============================================== -->
   <!-- 画面A: ポータル画面（どこを編集しますか？） -->
   <!-- ============================================== -->
-  <section id="portal-view" class="max-w-6xl mx-auto px-4 py-8 sm:py-12 flex-1 w-full flex flex-col justify-center">
+  <section id="portal-view" class="max-w-6xl mx-auto px-4 py-8 sm:py-10 flex-1 w-full flex flex-col justify-center">
     
     <!-- 中央ウェルカムメッセージ＆K-Kobato夫妻マスコット -->
-    <div class="text-center mb-8 flex flex-col items-center">
-      <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-white p-2 border-4 border-kb-red shadow-xl mb-4 overflow-hidden animate-float">
+    <div class="text-center mb-6 flex flex-col items-center">
+      <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white p-2 border-4 border-kb-red shadow-xl mb-3 overflow-hidden animate-float">
         <img src="./mascot-parents.png" alt="K-Kobato夫妻" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-4xl\'>⚾</div>'">
       </div>
       <span class="inline-block bg-red-100 text-kb-red text-xs font-bold px-3 py-1 rounded-full mb-2 border border-red-200">
-        K-Kobato夫妻が順番に案内します！
+        K-Kobato夫妻がしっかりナビゲートします！
       </span>
       <h2 class="text-2xl sm:text-3xl font-black text-kb-navy tracking-tight">
         今日はホームページの<span class="text-kb-red underline decoration-wavy decoration-red-400">どこを編集</span>しますか？
       </h2>
       <p class="text-xs sm:text-sm text-stone-600 mt-2 max-w-xl">
-        編集したいボタンを押してください。<strong>「何から順番にどう触ればいいか」をステップ順に1つずつ案内</strong>しますので安心してくださいね！
+        触るのは<strong>右側の4つのグループ（6つのメニュー）だけ</strong>でOK！他は一切触らなくて大丈夫です。
       </p>
     </div>
 
-    <!-- 5つの選択肢カード -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      
-      <!-- 1. 今年の目標 -->
-      <div onclick="startWizard('goals')" class="group bg-white rounded-2xl p-6 border-2 border-stone-200 hover:border-kb-red hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-red-50 text-kb-red flex items-center justify-center text-xl font-bold flex-shrink-0 group-hover:bg-kb-red group-hover:text-white transition">
-            <i class="fa-solid fa-bullseye"></i>
-          </div>
-          <div>
-            <span class="text-[10px] font-teko text-kb-red font-bold tracking-wider uppercase">TOP PAGE HIGHLIGHT</span>
-            <h3 class="text-lg font-bold text-kb-navy group-hover:text-kb-red transition">今年の目標</h3>
-            <p class="text-xs text-stone-500 mt-1 leading-relaxed">
-              「凡事徹底」などのメイン目標と、3つの詳細項目（英字・文章）を更新します。
-            </p>
-          </div>
+    <!-- ============================================== -->
+    <!-- 新設：管理画面の全体像マップ（画像図解のインタラクティブ完全再現） -->
+    <!-- ============================================== -->
+    <div class="bg-white rounded-3xl p-5 sm:p-7 border-2 border-stone-200 shadow-xl mb-8 overflow-hidden relative">
+      <div class="border-b border-stone-100 pb-3 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-7 bg-kb-red rounded-full inline-block"></span>
+          <h3 class="text-lg sm:text-xl font-black text-kb-navy">管理画面の全体像：必要なツールだけをシンプルに</h3>
         </div>
-        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-kb-red">
-          <span>ステップ順に編集する</span>
-          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-        </div>
+        <span class="text-xs font-bold text-kb-red bg-red-50 border border-red-200 px-3 py-1 rounded-full self-start sm:self-auto">
+          👇 カードを押すとそのまま作業画面へ進めます！
+        </span>
       </div>
 
-      <!-- 2. お知らせ -->
-      <div onclick="startWizard('news')" class="group bg-white rounded-2xl p-6 border-2 border-stone-200 hover:border-kb-red hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-blue-50 text-kb-navy flex items-center justify-center text-xl font-bold flex-shrink-0 group-hover:bg-kb-navy group-hover:text-white transition">
-            <i class="fa-regular fa-newspaper"></i>
+      <!-- 全体マップのビジュアルレイアウト（左：WPメニュー枠 / 右：4大用途カード） -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        
+        <!-- 左側：WordPress管理画面の左メニュー再現 (4 cols) -->
+        <div class="lg:col-span-4 bg-[#1d2327] rounded-2xl p-3 shadow-inner text-stone-300 font-mono text-xs border border-stone-700">
+          <div class="bg-[#23282d] p-2 rounded-xl text-white font-bold flex items-center justify-between mb-2">
+            <span class="flex items-center gap-1.5"><i class="fa-brands fa-wordpress text-base"></i> ダッシュボード</span>
+            <span class="text-[10px] text-stone-400 font-sans">越谷ボーイズ</span>
           </div>
-          <div>
-            <span class="text-[10px] font-teko text-kb-navy font-bold tracking-wider uppercase">NEWS & TOPICS</span>
-            <h3 class="text-lg font-bold text-kb-navy group-hover:text-kb-red transition">お知らせ（トピックス）</h3>
-            <p class="text-xs text-stone-500 mt-1 leading-relaxed">
-              大会結果、雨天連絡、体験練習の案内など、最新の記事を作成して投稿します。
-            </p>
+          <div class="space-y-1 text-[11px]">
+            <div class="px-2.5 py-1 text-stone-500 flex items-center gap-2">
+              <i class="fa-solid fa-house text-[10px]"></i> ホーム / 更新
+            </div>
+            
+            <!-- ① 投稿 (お知らせ) -->
+            <div onclick="startWizard('news')" class="group px-3 py-2 rounded-xl bg-blue-900/60 hover:bg-blue-600 text-blue-100 hover:text-white font-bold flex items-center justify-between cursor-pointer border border-blue-500/50 transition">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-thumbtack text-blue-400 group-hover:text-white"></i> 投稿</span>
+              <span class="text-[10px] bg-blue-500 group-hover:bg-white group-hover:text-blue-700 text-white px-2 py-0.5 rounded-full font-sans font-bold">日々の発信 ➔</span>
+            </div>
+
+            <!-- ② メディア (写真) -->
+            <div onclick="startWizard('media')" class="group px-3 py-2 rounded-xl bg-purple-900/60 hover:bg-purple-600 text-purple-100 hover:text-white font-bold flex items-center justify-between cursor-pointer border border-purple-500/50 transition">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-camera text-purple-400 group-hover:text-white"></i> メディア</span>
+              <span class="text-[10px] bg-purple-500 group-hover:bg-white group-hover:text-purple-700 text-white px-2 py-0.5 rounded-full font-sans font-bold">写真管理 ➔</span>
+            </div>
+
+            <div class="px-2.5 py-1 text-stone-600 flex items-center gap-2 opacity-40">
+              <i class="fa-solid fa-file text-[10px]"></i> 固定ページ
+            </div>
+            <div class="px-2.5 py-1 text-stone-600 flex items-center gap-2 opacity-40">
+              <i class="fa-solid fa-comment text-[10px]"></i> コメント
+            </div>
+
+            <!-- ③ よくあるご質問 -->
+            <div onclick="startWizard('faq')" class="group px-3 py-2 rounded-xl bg-emerald-900/60 hover:bg-emerald-600 text-emerald-100 hover:text-white font-bold flex items-center justify-between cursor-pointer border border-emerald-500/50 transition">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-circle-question text-emerald-400 group-hover:text-white"></i> よくあるご質問</span>
+              <span class="text-[10px] bg-emerald-500 group-hover:bg-white group-hover:text-emerald-700 text-white px-2 py-0.5 rounded-full font-sans font-bold">基本情報 ➔</span>
+            </div>
+
+            <!-- ④ 今年の目標 -->
+            <div onclick="startWizard('goals')" class="group px-3 py-2 rounded-xl bg-red-900/60 hover:bg-kb-red text-red-100 hover:text-white font-bold flex items-center justify-between cursor-pointer border border-red-500/50 transition">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-bullseye text-red-400 group-hover:text-white"></i> 今年の目標</span>
+              <span class="text-[10px] bg-kb-red group-hover:bg-white group-hover:text-kb-red text-white px-2 py-0.5 rounded-full font-sans font-bold">チーム目標 ➔</span>
+            </div>
+
+            <div class="px-2.5 py-1 text-stone-600 flex items-center gap-2 opacity-40">
+              <i class="fa-solid fa-user-tie text-[10px]"></i> 指導者紹介 / 試合結果 / 選手紹介
+            </div>
+
+            <!-- ⑤ 関係者の声 -->
+            <div onclick="startWizard('voice')" class="group px-3 py-2 rounded-xl bg-amber-900/60 hover:bg-amber-600 text-amber-100 hover:text-white font-bold flex items-center justify-between cursor-pointer border border-amber-500/50 transition">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-comments text-amber-400 group-hover:text-white"></i> 関係者の声</span>
+              <span class="text-[10px] bg-amber-500 group-hover:bg-white group-hover:text-amber-700 text-white px-2 py-0.5 rounded-full font-sans font-bold">OB・選手・父母 ➔</span>
+            </div>
+
+            <div class="px-2.5 py-1 text-stone-600 flex items-center gap-2 opacity-30 border-t border-stone-800 pt-1.5">
+              <i class="fa-solid fa-gear text-[10px]"></i> 外観 / プラグイン (※触らない)
+            </div>
           </div>
         </div>
-        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-kb-red">
-          <span>ステップ順に作成する</span>
-          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+
+        <!-- 右側：用途ごとの4つのブロックカード（線でつながるイメージ） (8 cols) -->
+        <div class="lg:col-span-8 flex flex-col gap-3.5">
+          
+          <!-- ブロック 1: 写真の管理 -->
+          <div onclick="startWizard('media')" class="group bg-gradient-to-r from-purple-50/70 to-white hover:to-purple-50 p-4 rounded-2xl border-2 border-purple-200 hover:border-purple-600 hover:shadow-lg transition-all cursor-pointer flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-2xl font-bold flex-shrink-0 shadow-md">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold text-purple-700 tracking-wider">MEDIA & PHOTOS</span>
+                  <span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full">一番最初に行う</span>
+                </div>
+                <h4 class="text-base font-bold text-kb-navy group-hover:text-purple-700 transition flex items-center gap-2">
+                  <span>写真の管理：メディア</span>
+                  <span class="text-xs text-stone-400 font-normal">（写真をアップする場所）</span>
+                </h4>
+                <p class="text-xs text-stone-500 mt-0.5">写真のアップロードや「31期生 氏名 背番号」の命名アシスト</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-purple-700 hidden sm:inline">ここを押す</span>
+              <div class="w-8 h-8 rounded-full bg-purple-100 group-hover:bg-purple-600 text-purple-600 group-hover:text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ブロック 2: 日々の発信 -->
+          <div onclick="startWizard('news')" class="group bg-gradient-to-r from-blue-50/70 to-white hover:to-blue-50 p-4 rounded-2xl border-2 border-blue-200 hover:border-blue-600 hover:shadow-lg transition-all cursor-pointer flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl font-bold flex-shrink-0 shadow-md">
+                <i class="fa-solid fa-newspaper"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold text-blue-700 tracking-wider">DAILY UPDATES</span>
+                  <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">一番よく使う！</span>
+                </div>
+                <h4 class="text-base font-bold text-kb-navy group-hover:text-blue-700 transition flex items-center gap-2">
+                  <span>日々の発信：投稿（お知らせ）</span>
+                </h4>
+                <p class="text-xs text-stone-500 mt-0.5">大会結果、雨天連絡、体験練習、重要トピックスの新規記事作成</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-blue-700 hidden sm:inline">ここを押す</span>
+              <div class="w-8 h-8 rounded-full bg-blue-100 group-hover:bg-blue-600 text-blue-600 group-hover:text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ブロック 3: チームの目標 -->
+          <div onclick="startWizard('goals')" class="group bg-gradient-to-r from-red-50/70 to-white hover:to-red-50 p-4 rounded-2xl border-2 border-red-200 hover:border-kb-red hover:shadow-lg transition-all cursor-pointer flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-kb-red text-white flex items-center justify-center text-2xl font-bold flex-shrink-0 shadow-md">
+                <i class="fa-solid fa-bullseye"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold text-kb-red tracking-wider">TEAM GOAL</span>
+                  <span class="bg-red-100 text-kb-red text-[10px] font-bold px-2 py-0.5 rounded-full">新学年・年度初め</span>
+                </div>
+                <h4 class="text-base font-bold text-kb-navy group-hover:text-kb-red transition">今年の目標：凡事徹底・01〜03</h4>
+                <p class="text-xs text-stone-500 mt-0.5">トップページの一番目立つ大きな赤文字スローガンと3つの実践項目</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-kb-red hidden sm:inline">ここを押す</span>
+              <div class="w-8 h-8 rounded-full bg-red-100 group-hover:bg-kb-red text-kb-red group-hover:text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ブロック 4: 基本情報（声・FAQ） -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 声 -->
+            <div onclick="startWizard('voice')" class="group bg-gradient-to-r from-amber-50/70 to-white hover:to-amber-50 p-3.5 rounded-2xl border-2 border-amber-200 hover:border-amber-600 hover:shadow-lg transition-all cursor-pointer flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl font-bold flex-shrink-0 shadow">
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-kb-navy group-hover:text-amber-700 transition">関係者の声</h4>
+                  <p class="text-[10px] text-stone-500">OB・選手・父母の声</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-circle-chevron-right text-amber-500 group-hover:translate-x-1 transition-transform text-sm"></i>
+            </div>
+
+            <!-- FAQ -->
+            <div onclick="startWizard('faq')" class="group bg-gradient-to-r from-emerald-50/70 to-white hover:to-emerald-50 p-3.5 rounded-2xl border-2 border-emerald-200 hover:border-emerald-600 hover:shadow-lg transition-all cursor-pointer flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl font-bold flex-shrink-0 shadow">
+                  <i class="fa-solid fa-circle-question"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-kb-navy group-hover:text-emerald-700 transition">よくあるご質問</h4>
+                  <p class="text-[10px] text-stone-500">当番・費用・見学等</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-circle-chevron-right text-emerald-500 group-hover:translate-x-1 transition-transform text-sm"></i>
+            </div>
+          </div>
+
         </div>
+
       </div>
 
-      <!-- 3. 関係者の声 -->
-      <div onclick="startWizard('voice')" class="group bg-white rounded-2xl p-6 border-2 border-stone-200 hover:border-kb-red hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl font-bold flex-shrink-0 group-hover:bg-amber-700 group-hover:text-white transition">
-            <i class="fa-regular fa-comments"></i>
-          </div>
-          <div>
-            <span class="text-[10px] font-teko text-amber-700 font-bold tracking-wider uppercase">VOICES & INTERVIEWS</span>
-            <h3 class="text-lg font-bold text-kb-navy group-hover:text-kb-red transition">関係者の声 (OB・選手・父母)</h3>
-            <p class="text-xs text-stone-500 mt-1 leading-relaxed">
-              卒団生や保護者からの熱いメッセージを追加します。『 』自動付与も完全サポート！
-            </p>
-          </div>
-        </div>
-        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-kb-red">
-          <span>ステップ順に追加する</span>
-          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-        </div>
+      <!-- 下部のキャッチコピー帯（PDFのメッセージ完全踏襲） -->
+      <div class="mt-6 bg-gradient-to-r from-kb-navy to-slate-900 text-white px-5 py-3 rounded-2xl flex items-center justify-between text-xs sm:text-sm font-bold shadow-md">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-check-double text-yellow-300"></i>
+          <span>このメニューだけ覚えれば、越谷ボーイズ公式HPの鮮度を完璧に保つことができます！</span>
+        </span>
+        <span class="text-kb-subtle hidden md:inline text-xs font-normal">越谷ボーイズ父母会</span>
       </div>
-
-      <!-- 4. よくあるご質問 -->
-      <div onclick="startWizard('faq')" class="group bg-white rounded-2xl p-6 border-2 border-stone-200 hover:border-kb-red hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl font-bold flex-shrink-0 group-hover:bg-emerald-700 group-hover:text-white transition">
-            <i class="fa-solid fa-circle-question"></i>
-          </div>
-          <div>
-            <span class="text-[10px] font-teko text-emerald-700 font-bold tracking-wider uppercase">FREQUENT QUESTIONS</span>
-            <h3 class="text-lg font-bold text-kb-navy group-hover:text-kb-red transition">よくあるご質問 (FAQ)</h3>
-            <p class="text-xs text-stone-500 mt-1 leading-relaxed">
-              「お茶当番の負担は？」「見学は？」などの質問と回答を追加・修正します。
-            </p>
-          </div>
-        </div>
-        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-kb-red">
-          <span>ステップ順に追加する</span>
-          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-
-      <!-- 5. 写真命名ツール -->
-      <div onclick="startWizard('media')" class="group bg-white rounded-2xl p-6 border-2 border-stone-200 hover:border-kb-red hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between md:col-span-2 lg:col-span-1">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-xl font-bold flex-shrink-0 group-hover:bg-purple-700 group-hover:text-white transition">
-            <i class="fa-solid fa-camera"></i>
-          </div>
-          <div>
-            <span class="text-[10px] font-teko text-purple-700 font-bold tracking-wider uppercase">MEDIA & PHOTOS</span>
-            <h3 class="text-lg font-bold text-kb-navy group-hover:text-kb-red transition">写真のアップロード＆命名</h3>
-            <p class="text-xs text-stone-500 mt-1 leading-relaxed">
-              「31期生 氏名 背番号1.jpg」のように、検索しやすいファイル名を自動作成します。
-            </p>
-          </div>
-        </div>
-        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-kb-red">
-          <span>名前を作ってアップする</span>
-          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-
     </div>
 
   </section>
@@ -361,10 +471,15 @@
               <i class="fa-brands fa-wordpress text-stone-500"></i>
               <span id="manual-view-title">WordPress管理画面の操作場所</span>
             </span>
-            <span class="text-[11px] bg-red-100 text-kb-red px-2 py-0.5 rounded-full font-bold">赤枠の番号順に操作</span>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1 text-[11px] bg-red-100 text-kb-red px-2.5 py-0.5 rounded-full font-bold">
+                <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+                <span>赤枠①を押す</span>
+              </span>
+            </div>
           </div>
 
-          <div id="manual-mock-canvas" class="p-4 sm:p-6 bg-stone-50 min-h-[440px] flex flex-col justify-center items-center overflow-x-auto">
+          <div id="manual-mock-canvas" class="p-4 sm:p-6 bg-stone-100 min-h-[460px] flex flex-col justify-center items-center overflow-x-auto relative">
             <!-- JavaScriptで現在ステップに合わせたマニュアル画面を動的レンダリング -->
           </div>
         </div>
@@ -757,36 +872,31 @@
             <p class="font-bold text-kb-navy">▼ まずはWordPressを開きましょう</p>
             <p class="text-stone-600 leading-relaxed">
               ブラウザで別タブを開き、越谷ボーイズのWordPress管理画面にログインしてください。<br>
-              ログインできたら、右の写真の<strong>【赤枠①】</strong>をクリックします。
+              ログインできたら、右の画面の<span class="text-red-600 font-bold underline">赤枠①</span>を押してから、上の「次へ」ボタンを押して進みます。
             </p>
-            <div class="pt-2">
-              <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full">
-                <i class="fa-solid fa-check"></i> メニューを押したら「次へ」ボタンを押してください
-              </span>
-            </div>
           </div>
         `;
       } else if (currentStep === 2) {
-        // セクション別の入力フォーム
         if (currentSection === 'goals') {
           container.innerHTML = `
             <div class="space-y-3">
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">① 目標タイトル（大きな赤文字） <span class="text-red-500">*</span></label>
-                <input type="text" id="wiz-goal-title" value="凡事徹底" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-sm font-bold text-kb-red focus:ring-2 focus:ring-kb-red">
+                <label class="block text-xs font-bold text-stone-700 mb-1">目標タイトル (大きな赤文字) <span class="text-red-500">*</span></label>
+                <input type="text" id="wiz-goal-title" value="凡事徹底" oninput="syncInputs()" class="w-full px-3 py-2 border border-stone-300 rounded-xl text-xs font-bold text-kb-red focus:ring-2 focus:ring-kb-red">
               </div>
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">② 目標サブテキスト（補足）</label>
-                <input type="text" id="wiz-goal-sub" value="当たり前を、誰よりも丁寧に。" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs">
+                <label class="block text-xs font-bold text-stone-700 mb-1">目標サブテキスト</label>
+                <input type="text" id="wiz-goal-sub" value="当たり前を、誰よりも丁寧に。" oninput="syncInputs()" class="w-full px-3 py-2 border border-stone-300 rounded-xl text-xs focus:ring-2 focus:ring-kb-red">
               </div>
-              <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 space-y-2">
-                <span class="font-bold text-xs text-kb-navy">項目01の内容</span>
-                <input type="text" id="wiz-goal-i1-t" value="野球をする事前準備の徹底" oninput="syncInputs()" placeholder="見出し" class="w-full px-2.5 py-1.5 border rounded-lg text-xs">
-                <input type="text" id="wiz-goal-i1-en" value="PREPARATION" oninput="syncInputs()" placeholder="英字 (任意)" class="w-full px-2.5 py-1.5 border rounded-lg text-xs uppercase font-mono">
-                <textarea id="wiz-goal-i1-d" rows="2" oninput="syncInputs()" class="w-full px-2.5 py-1.5 border rounded-lg text-xs">掃除・礼儀・挨拶・返事・整理整頓・アップ・キャッチボール・トスをしっかりすることにより、全力で試合に臨むことができる。</textarea>
+              <div class="bg-red-50 p-2.5 rounded-xl border border-red-200">
+                <span class="text-[11px] font-bold text-kb-red block mb-1">項目01の内容：</span>
+                <input type="text" id="wiz-goal-i1-t" value="野球をする事前準備の徹底" oninput="syncInputs()" placeholder="タイトル" class="w-full px-2 py-1 border rounded text-xs mb-1.5">
+                <input type="text" id="wiz-goal-i1-en" value="PREPARATION" oninput="syncInputs()" placeholder="英字 (任意)" class="w-full px-2 py-1 border rounded text-xs mb-1.5 font-mono uppercase">
+                <textarea id="wiz-goal-i1-d" rows="2" oninput="syncInputs()" placeholder="詳細説明" class="w-full px-2 py-1 border rounded text-xs">掃除・礼儀・挨拶・返事・整理整頓・アップ・キャッチボール・トスをしっかりすることにより、全力で試合に臨むことができる。</textarea>
               </div>
-              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                <i class="fa-regular fa-copy"></i> 入力内容をすべてコピーしてWordPressへ貼る
+              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy text-white text-xs font-bold py-2 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>入力した内容をコピーする</span>
               </button>
             </div>
           `;
@@ -795,16 +905,17 @@
             <div class="space-y-3">
               <div>
                 <label class="block text-xs font-bold text-stone-700 mb-1">記事タイトル <span class="text-red-500">*</span></label>
-                <input type="text" id="wiz-news-title" value="ホームページをリニューアルしました。" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-sm font-bold focus:ring-2 focus:ring-kb-red">
+                <input type="text" id="wiz-news-title" value="ホームページをリニューアルしました。" oninput="syncInputs()" class="w-full px-3 py-2 border border-stone-300 rounded-xl text-xs font-bold text-kb-navy focus:ring-2 focus:ring-kb-red">
               </div>
               <div>
                 <label class="block text-xs font-bold text-stone-700 mb-1">本文テキスト</label>
-                <textarea id="wiz-news-body" rows="5" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs leading-relaxed focus:ring-2 focus:ring-kb-red">いつも応援いただき、ありがとうございます。
+                <textarea id="wiz-news-body" rows="4" oninput="syncInputs()" class="w-full px-3 py-2 border border-stone-300 rounded-xl text-xs leading-relaxed focus:ring-2 focus:ring-kb-red">いつも応援いただき、ありがとうございます。
 このたび、ホームページをリニューアルしました。
-チームの活動や雰囲気が伝わりやすいよう、デザインと内容を見直しました。</textarea>
+スマートフォンの表示にも対応しています。</textarea>
               </div>
-              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                <i class="fa-regular fa-copy"></i> タイトルと本文をコピーする
+              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy text-white text-xs font-bold py-2 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>入力した内容をコピーする</span>
               </button>
             </div>
           `;
@@ -814,27 +925,31 @@
               <div>
                 <label class="block text-xs font-bold text-stone-700 mb-1">関係者タイプ</label>
                 <div class="grid grid-cols-3 gap-2 text-xs">
-                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-red-50 text-kb-red font-bold">
-                    <input type="radio" name="wiz-voice-type" value="OB" checked onchange="syncInputs()"> OBの声
+                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-white has-[:checked]:bg-kb-red has-[:checked]:text-white font-bold">
+                    <input type="radio" name="wiz-voice-type" value="OB" checked onchange="syncInputs()" class="hidden">
+                    <span>OB</span>
                   </label>
-                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-stone-50">
-                    <input type="radio" name="wiz-voice-type" value="選手" onchange="syncInputs()"> 選手の声
+                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-white has-[:checked]:bg-kb-red has-[:checked]:text-white font-bold">
+                    <input type="radio" name="wiz-voice-type" value="選手" onchange="syncInputs()" class="hidden">
+                    <span>選手</span>
                   </label>
-                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-stone-50">
-                    <input type="radio" name="wiz-voice-type" value="父母" onchange="syncInputs()"> 父母の声
+                  <label class="p-2 border rounded-lg text-center cursor-pointer bg-white has-[:checked]:bg-kb-red has-[:checked]:text-white font-bold">
+                    <input type="radio" name="wiz-voice-type" value="父母" onchange="syncInputs()" class="hidden">
+                    <span>父母</span>
                   </label>
                 </div>
               </div>
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">見出しタイトル（※『 』は入力不要）</label>
-                <input type="text" id="wiz-voice-title" value="越谷ボーイズで全員が実戦経験を重ねたこと" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs font-medium">
+                <label class="block text-xs font-bold text-stone-700 mb-1">タイトル（『 』は自動でつきます）</label>
+                <input type="text" id="wiz-voice-title" value="越谷ボーイズで全員が実戦経験を重ねたこと" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs">
               </div>
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">お名前 (任意)</label>
+                <label class="block text-xs font-bold text-stone-700 mb-1">氏名 (任意)</label>
                 <input type="text" id="wiz-voice-name" value="中島 涼太郎" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs">
               </div>
-              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                <i class="fa-regular fa-copy"></i> 入力内容をコピーする
+              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy text-white text-xs font-bold py-2 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>入力した内容をコピーする</span>
               </button>
             </div>
           `;
@@ -842,15 +957,16 @@
           container.innerHTML = `
             <div class="space-y-3">
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">質問 (Q) - タイトル欄に入力</label>
+                <label class="block text-xs font-bold text-stone-700 mb-1">質問 (Q) - タイトル欄に入力 <span class="text-red-500">*</span></label>
                 <input type="text" id="wiz-faq-q" value="お茶当番や保護者の拘束・係の負担はありますか？" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs font-bold">
               </div>
               <div>
-                <label class="block text-xs font-bold text-stone-700 mb-1">回答 (A) - 下の「A」欄に入力</label>
-                <textarea id="wiz-faq-a" rows="4" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs">お茶当番などの強制的な役割はありません。「できる人が、できる時に」当番として協力するのが、越谷ボーイズの昔からのスタイルです。</textarea>
+                <label class="block text-xs font-bold text-stone-700 mb-1">回答 (A) - 下の「A」欄に入力 <span class="text-red-500">*</span></label>
+                <textarea id="wiz-faq-a" rows="3" oninput="syncInputs()" class="w-full px-3 py-2 border rounded-xl text-xs leading-relaxed">お茶当番などの役割はありません。「できる人が、できる時に」協力するのが越谷ボーイズのスタイルです。</textarea>
               </div>
-              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                <i class="fa-regular fa-copy"></i> 質問と回答をコピーする
+              <button onclick="copyCurrentInputText()" class="w-full bg-kb-navy text-white text-xs font-bold py-2 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>入力した内容をコピーする</span>
               </button>
             </div>
           `;
@@ -860,7 +976,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <div>
                   <label class="block text-[11px] font-bold text-stone-600 mb-1">期生</label>
-                  <select id="wiz-photo-gen" onchange="updateMediaGenName()" class="w-full px-2.5 py-1.5 border rounded-lg text-xs">
+                  <select id="wiz-photo-gen" onchange="updateMediaGenName()" class="w-full px-2 py-1.5 border rounded-lg text-xs">
                     <option value="31期生">31期生</option>
                     <option value="32期生">32期生</option>
                     <option value="33期生">33期生</option>
@@ -868,162 +984,214 @@
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-stone-600 mb-1">背番号</label>
-                  <input type="text" id="wiz-photo-num" value="背番号1" oninput="updateMediaGenName()" class="w-full px-2.5 py-1.5 border rounded-lg text-xs">
+                  <input type="text" id="wiz-photo-num" value="背番号1" oninput="updateMediaGenName()" class="w-full px-2 py-1.5 border rounded-lg text-xs">
                 </div>
               </div>
               <div>
-                <label class="block text-[11px] font-bold text-stone-600 mb-1">選手のお名前（姓名の間に半角スペース）</label>
-                <input type="text" id="wiz-photo-name" value="出居 駿作" oninput="updateMediaGenName()" class="w-full px-2.5 py-1.5 border rounded-lg text-xs">
+                <label class="block text-[11px] font-bold text-stone-600 mb-1">選手名</label>
+                <input type="text" id="wiz-photo-name" value="出居 駿作" oninput="updateMediaGenName()" class="w-full px-2 py-1.5 border rounded-lg text-xs">
               </div>
-              <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
-                <span class="text-[10px] text-purple-900 font-bold block mb-1">推奨ファイル名：</span>
-                <div id="wiz-photo-result" class="font-mono text-xs font-bold text-kb-navy bg-white p-2 rounded border border-purple-200">
+              <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200">
+                <span class="text-[11px] font-bold text-purple-900 block mb-1">推奨ファイル名:</span>
+                <div id="wiz-photo-result" class="font-mono text-xs font-bold text-kb-navy bg-white p-2 rounded border select-all">
                   31期生 出居 駿作 背番号1.jpg
                 </div>
               </div>
-              <button onclick="copyMediaFileName()" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                <i class="fa-regular fa-copy"></i> この名前をコピーして画像名を変更する
+              <button onclick="copyMediaFileName()" class="w-full bg-purple-700 text-white text-xs font-bold py-2 rounded-xl hover:bg-purple-800 transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>ファイル名をコピーする</span>
               </button>
             </div>
           `;
         }
       } else if (currentStep === 3) {
         container.innerHTML = `
-          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs space-y-3">
-            <p class="font-bold text-kb-navy">▼ つまずきやすいポイントの事前確認</p>
-            <ul class="space-y-2 text-stone-700">
-              <li class="flex items-start gap-2">
-                <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
-                <span>誤字・脱字や、選手のお名前に間違いはありませんか？</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
-                <span>外部リンクを貼った場合は<strong>「新しいタブで開く」</strong>にチェックが入っていますか？</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
-                <span>写真がある場合、ご本人・保護者の掲載了承をいただいていますか？</span>
-              </li>
+          <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs space-y-2 text-stone-700">
+            <p class="font-bold text-amber-900">▼ 入力前の最終チェックポイント</p>
+            <ul class="list-disc pl-4 space-y-1 text-stone-600">
+              <li>誤字や脱字はありませんか？</li>
+              <li>改行位置は不自然になっていませんか？（プレビューで確認）</li>
+              <li>選手や保護者が写っている写真は掲載許可をとっていますか？</li>
             </ul>
           </div>
         `;
       } else if (currentStep === 4) {
         container.innerHTML = `
-          <div class="bg-red-50 p-4 rounded-xl border border-red-200 text-xs space-y-3 text-stone-800">
-            <p class="font-bold text-kb-red text-sm">▼ 最後のステップ：保存・公開</p>
-            <p class="leading-relaxed">
-              WordPress画面の右上にある<strong>「下書き保存」</strong>または<strong>「公開」</strong>を押してください。
-            </p>
-            <div class="bg-white p-3 rounded-lg border border-red-300 space-y-1">
-              <div class="font-bold text-kb-navy">💡 迷ったときの合言葉：</div>
-              <p class="text-stone-600 text-[11px]">「最初は必ず<strong>下書き保存</strong>！他の役員やWeb担当者にChatworkで『下書き保存したので見てください』と送れば安心です！」</p>
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs space-y-3">
+            <p class="font-bold text-kb-navy">▼ 保存・公開の手順</p>
+            <div class="space-y-2">
+              <div class="p-2.5 rounded-lg bg-white border border-stone-200 flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                <div>
+                  <span class="font-bold text-stone-800 block">不安な時は「下書き保存」</span>
+                  <span class="text-[11px] text-stone-500">まだ一般の訪問者には見えません。後から修正できます。</span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white border border-stone-200 flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                <div>
+                  <span class="font-bold text-stone-800 block">完成したら「公開」をクリック</span>
+                  <span class="text-[11px] text-stone-500">公式ホームページに反映されます！</span>
+                </div>
+              </div>
             </div>
-            <button onclick="openChatworkModal()" class="w-full bg-kb-red hover:bg-red-800 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-              <i class="fa-solid fa-paper-plane"></i> 下書き完了をChatworkで報告する文を作る
-            </button>
           </div>
         `;
       }
     }
 
-    // 右側マニュアルモックの描画（PDF画面を忠実に再現）
+    // 右側マニュアルモックの描画（PDF画面を忠実に再現 & 指さしアニメーション）
     function renderMockManual(mockType) {
       const canvas = document.getElementById('manual-mock-canvas');
 
       if (mockType.startsWith('menu-')) {
         let menuName = '今年の目標';
-        if (mockType === 'menu-news') menuName = '投稿';
-        if (mockType === 'menu-voice') menuName = '関係者の声';
-        if (mockType === 'menu-faq') menuName = 'よくあるご質問';
-        if (mockType === 'menu-media') menuName = 'メディア';
+        if (mockType === 'menu-news') { menuName = '投稿'; }
+        if (mockType === 'menu-voice') { menuName = '関係者の声'; }
+        if (mockType === 'menu-faq') { menuName = 'よくあるご質問'; }
+        if (mockType === 'menu-media') { menuName = 'メディア'; }
 
         canvas.innerHTML = `
-          <div class="w-full max-w-md bg-white rounded-xl shadow-lg border border-stone-300 overflow-hidden text-xs">
-            <div class="bg-[#23282d] text-white p-3 flex items-center justify-between border-b border-stone-700">
-              <span class="font-bold flex items-center gap-2"><i class="fa-brands fa-wordpress"></i> ダッシュボード</span>
-              <span class="text-[10px] text-stone-400">WordPress 7.1.4</span>
+          <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl border-2 border-stone-300 overflow-hidden text-xs">
+            <div class="bg-[#23282d] text-white p-2.5 flex items-center justify-between border-b border-stone-700">
+              <span class="font-bold flex items-center gap-2 text-xs">
+                <i class="fa-brands fa-wordpress text-sm text-stone-300"></i>
+                <span>ダッシュボード</span>
+              </span>
+              <span class="text-[10px] bg-stone-700 px-2 py-0.5 rounded text-stone-300 font-mono">WordPress 管理画面</span>
             </div>
-            <div class="flex">
-              <!-- 黒い左メニュー -->
-              <div class="w-44 bg-[#1d2327] text-stone-300 p-2 space-y-1 text-[11px] font-mono">
-                <div class="p-1.5 hover:text-white"><i class="fa-solid fa-gauge mr-1"></i> ホーム</div>
-                <div class="p-1.5 relative border-2 border-red-500 bg-blue-600 text-white rounded font-bold pulse-ring">
-                  <i class="fa-solid fa-thumbtack mr-1"></i> ${menuName}
-                  <span class="absolute -top-2.5 -right-2 bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-sans font-bold shadow">1</span>
-                </div>
-                <div class="p-1.5 opacity-40"><i class="fa-solid fa-camera mr-1"></i> メディア</div>
-                <div class="p-1.5 opacity-40"><i class="fa-solid fa-file mr-1"></i> 固定ページ</div>
-              </div>
-              <!-- メインエリア -->
-              <div class="flex-1 p-4 bg-stone-50 flex flex-col justify-center items-center text-center">
-                <div class="border-2 border-dashed border-red-400 p-3 rounded-xl bg-white shadow-sm">
-                  <span class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded font-bold inline-block shadow">
-                    ＋ 新規追加
+            
+            <div class="flex flex-col sm:flex-row">
+              <div class="w-full sm:w-48 bg-[#1d2327] text-stone-300 p-2.5 space-y-1 text-xs font-mono border-r border-stone-700 flex-shrink-0">
+                <div class="p-1.5 text-stone-500 text-[11px]"><i class="fa-solid fa-house mr-1"></i> ホーム</div>
+                
+                <div class="relative border-4 border-red-500 bg-blue-600 text-white rounded-xl p-2 font-bold spot-highlight shadow-lg flex items-center justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-thumbtack text-yellow-300"></i>
+                    <span>${menuName}</span>
                   </span>
-                  <span class="block text-[10px] text-red-600 font-bold mt-1">② 次にこのボタンを押します</span>
+                  <span class="bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-sans font-black shadow">1</span>
                 </div>
+
+                <div class="p-1.5 text-stone-500 text-[11px]"><i class="fa-solid fa-camera mr-1"></i> メディア</div>
+                <div class="p-1.5 text-stone-500 text-[11px]"><i class="fa-solid fa-file mr-1"></i> 固定ページ</div>
+                <div class="p-1.5 text-stone-500 text-[11px] opacity-40"><i class="fa-solid fa-gear mr-1"></i> 設定 (※触らない)</div>
+              </div>
+
+              <div class="flex-1 p-6 bg-stone-50 flex flex-col justify-center items-center text-center space-y-4">
+                <div class="text-xs font-bold text-stone-600 mb-1">
+                  左メニューを押したら、画面上のボタンを押します：
+                </div>
+                
+                <div class="relative border-4 border-red-500 rounded-2xl p-4 bg-white shadow-lg spot-highlight inline-block">
+                  <span class="absolute -top-3 -right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shadow-md border-2 border-white">2</span>
+                  
+                  <div class="bg-blue-600 text-white text-sm px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>${menuName}を追加</span>
+                  </div>
+
+                  <div class="absolute -bottom-7 left-1/2 -translate-x-1/2 text-2xl text-red-600 animate-finger select-none">
+                    👆
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-red-600 font-bold pt-4">
+                  ※画面内の赤枠の番号（① ➡️ ②）の順にクリックします！
+                </p>
               </div>
             </div>
           </div>
         `;
       } else if (mockType.startsWith('input-')) {
         canvas.innerHTML = `
-          <div class="w-full max-w-lg bg-white rounded-xl shadow-lg border border-stone-300 p-4 text-xs space-y-3">
-            <div class="border-b pb-2 flex items-center justify-between">
-              <span class="font-bold text-stone-700">新規記事・項目の追加</span>
-              <span class="text-[10px] bg-stone-100 text-stone-500 px-2 py-0.5 rounded">編集画面</span>
+          <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl border-2 border-stone-300 p-4 sm:p-5 text-xs space-y-4">
+            
+            <div class="border-b border-stone-200 pb-2.5 flex items-center justify-between">
+              <span class="font-bold text-stone-700 text-sm flex items-center gap-1.5">
+                <i class="fa-regular fa-file-lines text-kb-red"></i>
+                <span>新規項目の入力画面</span>
+              </span>
+              <span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">左で打った文字がここに入ります</span>
             </div>
-            <!-- タイトル枠 -->
-            <div class="relative border-2 border-red-500 rounded-lg p-2.5 bg-red-50/40">
-              <span class="absolute -top-2.5 -left-2 bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow">1</span>
-              <span class="text-[10px] font-bold text-stone-500 block mb-1">タイトルを追加</span>
-              <div class="bg-white p-2 border rounded font-bold text-kb-navy">
-                ${document.getElementById('wiz-goal-title')?.value || document.getElementById('wiz-news-title')?.value || '入力したタイトルがここに入ります'}
+
+            <div class="relative border-4 border-red-500 rounded-xl p-3 bg-red-50/50 spot-highlight">
+              <span class="absolute -top-3 -left-3 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow border-2 border-white">1</span>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-stone-600">タイトルを入力（赤枠①）</span>
+                <span class="text-[10px] text-red-600 font-bold animate-pulse">👈 ここに貼り付け</span>
+              </div>
+              <div class="bg-white p-2.5 border-2 border-stone-300 rounded-lg font-bold text-sm text-kb-navy shadow-inner min-h-[36px] flex items-center">
+                ${document.getElementById('wiz-goal-title')?.value || document.getElementById('wiz-news-title')?.value || document.getElementById('wiz-faq-q')?.value || '入力したタイトルがここに入ります'}
               </div>
             </div>
-            <!-- 本文枠 -->
-            <div class="relative border-2 border-red-500 rounded-lg p-2.5 bg-red-50/40">
-              <span class="absolute -top-2.5 -left-2 bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow">2</span>
-              <div class="flex items-center gap-1 bg-stone-100 p-1 rounded text-[10px] text-stone-500 mb-1">
-                <span class="font-bold bg-white px-1.5 py-0.5 border rounded">ビジュアル</span>
-                <span>太字 B</span> <span>リンク 🔗</span>
+
+            <div class="relative border-4 border-red-500 rounded-xl p-3 bg-red-50/50 spot-highlight">
+              <span class="absolute -top-3 -left-3 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow border-2 border-white">2</span>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[11px] font-bold text-stone-600">本文 / 詳細枠（赤枠②）</span>
+                <span class="text-[10px] bg-stone-200 text-stone-700 px-1.5 py-0.2 rounded font-mono">「ビジュアル」タブ</span>
               </div>
-              <div class="bg-white p-2 border rounded text-stone-600 text-[11px] min-h-[60px]">
-                ${document.getElementById('wiz-news-body')?.value || '詳細文章がここに入力されます。'}
+              
+              <div class="flex items-center gap-1.5 bg-stone-100 p-1.5 rounded-t-lg border border-b-0 border-stone-300 text-stone-600 text-[11px]">
+                <span class="px-2 py-0.5 bg-white border rounded font-bold shadow-sm">B 太字</span>
+                <span class="px-2 py-0.5 bg-white border rounded shadow-sm">🔗 リンク</span>
+                <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-300 rounded font-bold shadow-sm"><i class="fa-solid fa-photo-film"></i> メディアを追加</span>
+              </div>
+              
+              <div class="bg-white p-3 border-2 border-stone-300 rounded-b-lg text-stone-700 text-xs shadow-inner min-h-[90px] leading-relaxed whitespace-pre-line">
+                ${document.getElementById('wiz-news-body')?.value || document.getElementById('wiz-goal-i1-d')?.value || document.getElementById('wiz-faq-a')?.value || '左のフォームに入力した説明文章や回答が、そのままここに入ります。'}
               </div>
             </div>
+
           </div>
         `;
       } else if (mockType === 'publish-box') {
         canvas.innerHTML = `
-          <div class="w-full max-w-xs bg-white rounded-xl shadow-lg border border-stone-300 p-4 text-xs space-y-3">
-            <div class="border-b pb-2 flex items-center justify-between font-bold text-stone-700">
-              <span>公開パネル</span>
+          <div class="w-full max-w-sm bg-white rounded-2xl shadow-xl border-2 border-stone-300 p-5 text-xs space-y-4">
+            
+            <div class="border-b border-stone-200 pb-2 flex items-center justify-between font-bold text-stone-800 text-sm">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-box-archive text-kb-navy"></i>
+                <span>公開パネル（画面右上）</span>
+              </span>
               <i class="fa-solid fa-chevron-up text-stone-400"></i>
             </div>
-            <!-- 下書き保存ボタン -->
-            <div class="relative border-2 border-red-500 rounded-lg p-2.5 bg-red-50/30 text-center">
-              <span class="absolute -top-2.5 -left-2 bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow">1</span>
-              <button class="w-full bg-stone-100 hover:bg-stone-200 border border-stone-300 text-blue-600 font-bold py-1.5 rounded text-xs shadow-sm">
-                下書き保存
+
+            <div class="relative border-4 border-red-500 rounded-xl p-3 bg-red-50/50 spot-highlight text-center">
+              <span class="absolute -top-3 -left-3 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow border-2 border-white">1</span>
+              <button class="w-full bg-white hover:bg-stone-50 border-2 border-blue-500 text-blue-700 font-bold py-2 rounded-lg text-xs shadow-sm flex items-center justify-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>下書き保存</span>
               </button>
-              <span class="text-[10px] text-red-600 font-bold block mt-1">※途中で終わるとき・確認してもらうときはここ！</span>
+              <span class="text-[11px] text-red-600 font-bold block mt-1.5">
+                ★ 迷ったらまずここ！サイトにはまだ公開されず安全です
+              </span>
             </div>
-            <!-- 公開ボタン -->
-            <div class="relative border-2 border-red-500 rounded-lg p-2.5 bg-red-50/30 text-center">
-              <span class="absolute -top-2.5 -left-2 bg-red-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow">2</span>
-              <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded text-xs shadow">
-                公開
+
+            <div class="border-t border-stone-200 pt-2 flex items-center justify-between text-stone-500 text-[11px]">
+              <span>公開状態: 公開</span>
+              <span>すぐに公開する</span>
+            </div>
+
+            <div class="relative border-4 border-red-500 rounded-xl p-3 bg-red-50/50 spot-highlight text-center">
+              <span class="absolute -top-3 -left-3 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow border-2 border-white">2</span>
+              <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-globe"></i>
+                <span>公開</span>
               </button>
-              <span class="text-[10px] text-blue-700 font-bold block mt-1">※すぐにホームページに掲載するときはここ！</span>
+              <span class="text-[11px] text-blue-700 font-bold block mt-1.5">
+                ★ これを押すとホームページに掲載されます！
+              </span>
             </div>
+
           </div>
         `;
       } else {
         canvas.innerHTML = `
           <div class="p-6 text-center text-stone-500 text-xs">
-            <i class="fa-solid fa-image text-3xl mb-2 text-stone-400"></i>
-            <p>管理画面の手順に沿って作業を進めてください。</p>
+            <i class="fa-solid fa-image text-4xl mb-2 text-stone-400"></i>
+            <p>手順に沿ってWordPress画面を操作してください。</p>
           </div>
         `;
       }
