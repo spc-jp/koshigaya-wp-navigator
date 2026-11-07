@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>越谷ボーイズ公式HP かんたん更新ナビゲーター</title>
+  <!-- ファビコン設定 (確定：favicon.png) -->
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="apple-touch-icon" href="./favicon.png">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Noto Sans JP & Teko -->
@@ -120,6 +123,81 @@
       <p class="text-xs sm:text-sm text-stone-600 mt-2 max-w-xl">
         編集したいボタンを押してください。<strong>「何から順番にどう触ればいいか」をステップ順に1つずつ案内</strong>しますので安心してくださいね！
       </p>
+    </div>
+
+    <!-- 🔰 初めての方向け：安全な練習の手順（テストページの触り方ガイド）バナー -->
+    <div class="mb-6 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 border-2 border-emerald-300 rounded-2xl p-5 shadow-sm">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-emerald-200/80 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl font-bold flex-shrink-0 shadow">
+            🔰
+          </div>
+          <div>
+            <span class="text-[10px] bg-emerald-200 text-emerald-900 font-bold px-2 py-0.5 rounded-full">壊れる心配ゼロ！</span>
+            <h3 class="text-base sm:text-lg font-black text-emerald-950">初めての方向け：安全な練習の手順（テストページの触り方）</h3>
+          </div>
+        </div>
+        <button onclick="togglePracticeGuide()" id="btn-toggle-practice" class="px-3.5 py-1.5 rounded-xl bg-white border border-emerald-300 text-emerald-800 hover:bg-emerald-50 text-xs font-bold flex items-center gap-1.5 transition shadow-sm self-end sm:self-auto">
+          <span>練習方法を見る</span>
+          <i id="icon-toggle-practice" class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
+      <!-- 展開される練習ガイドコンテンツ -->
+      <div id="practice-guide-content" class="mt-4 space-y-4 text-xs text-emerald-950 hidden">
+        <p class="leading-relaxed bg-white/70 p-3 rounded-xl border border-emerald-200">
+          「いきなり本番サイトを触って壊してしまわないか不安…」「パソコンの中（ローカル）で練習できないの？」という声をよくいただきます。<br>
+          実は、<strong>専用ソフトを使わなくても、以下の2つの方法で100%安全に練習できます！</strong>
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 練習方法1: このアプリ内でいじる -->
+          <div class="bg-white p-4 rounded-xl border border-emerald-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 font-bold text-sm text-emerald-900 mb-1.5">
+                <span class="w-5 h-5 rounded-full bg-emerald-600 text-white text-[11px] flex items-center justify-center font-bold">1</span>
+                <span>この更新ナビゲーターで自由に遊ぶ</span>
+              </div>
+              <p class="text-stone-600 leading-relaxed text-[11px]">
+                このアプリに入力した内容は、本番サイトには送信されません。<br>
+                どれだけ文字を変えたりボタンを押しても<strong>絶対に壊れません</strong>ので、まずはここで「文字を入れると右側の見た目がどう変わるか」を試してみてください。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-stone-100 text-right">
+              <span class="text-[10px] text-emerald-700 font-bold">安心度：★★★★★（完全安全）</span>
+            </div>
+          </div>
+
+          <!-- 練習方法2: WordPressで非公開テストを作る -->
+          <div class="bg-white p-4 rounded-xl border border-emerald-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 font-bold text-sm text-emerald-900 mb-1.5">
+                <span class="w-5 h-5 rounded-full bg-emerald-600 text-white text-[11px] flex items-center justify-center font-bold">2</span>
+                <span>WordPressで「非公開テスト記事」を作る</span>
+              </div>
+              <p class="text-stone-600 leading-relaxed text-[11px]">
+                WordPress管理画面の「投稿」で新規追加し、右上の公開パネルで<strong>「公開範囲：非公開」</strong>または<strong>「下書き保存」</strong>を選べば、一般の訪問者には絶対に見えません。<br>
+                実際の管理画面の押し心地や画像の貼り付けを安全にテストできます。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-stone-100 text-right">
+              <span class="text-[10px] text-emerald-700 font-bold">安心度：★★★★☆（一般非公開）</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ローカル編集に関するよくある疑問Q&A -->
+        <div class="bg-emerald-900 text-white p-3.5 rounded-xl space-y-1.5 text-[11px]">
+          <div class="font-bold flex items-center gap-1.5 text-emerald-200">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>Q. パソコンの中（ローカル環境）で練習できないの？</span>
+          </div>
+          <p class="leading-relaxed text-emerald-100">
+            A. 専用ソフト（Local WPなど）を使えば可能ですが、個人のPCへのソフト導入や本番データの同期が非常に難しく、かえって混乱や挫折の原因になります。<br>
+            上記の<strong>「このアプリで下書き作成 ➡️ WordPressで下書き保存・非公開で確認」</strong>という手順を踏むのが、最も簡単で確実・安全な練習方法です！
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- 5つの選択肢カード -->
@@ -496,6 +574,25 @@
     let currentSection = 'goals';
     let currentStep = 1;
     let rightViewMode = 'manual'; // 'manual' または 'site'
+    let isPracticeGuideOpen = false;
+
+    // 安全な練習ガイドのアコーディオン開閉
+    function togglePracticeGuide() {
+      const content = document.getElementById('practice-guide-content');
+      const btnText = document.querySelector('#btn-toggle-practice span');
+      const icon = document.getElementById('icon-toggle-practice');
+
+      isPracticeGuideOpen = !isPracticeGuideOpen;
+      if (isPracticeGuideOpen) {
+        content.classList.remove('hidden');
+        btnText.innerText = '閉じる';
+        icon.className = 'fa-solid fa-chevron-up';
+      } else {
+        content.classList.add('hidden');
+        btnText.innerText = '練習方法を見る';
+        icon.className = 'fa-solid fa-chevron-down';
+      }
+    }
 
     // 各セクションの定義
     const sectionConfigs = {
